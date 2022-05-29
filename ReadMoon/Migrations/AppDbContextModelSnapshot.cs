@@ -41,7 +41,7 @@ namespace ReadMoon.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Authors", (string)null);
                 });
 
             modelBuilder.Entity("ReadMoon.Models.Book", b =>
@@ -79,7 +79,7 @@ namespace ReadMoon.Migrations
 
                     b.HasIndex("PublisherId");
 
-                    b.ToTable("Books");
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("ReadMoon.Models.BookAuthor", b =>
@@ -94,7 +94,7 @@ namespace ReadMoon.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("BookAuthors");
+                    b.ToTable("BookAuthors", (string)null);
                 });
 
             modelBuilder.Entity("ReadMoon.Models.Category", b =>
@@ -110,7 +110,7 @@ namespace ReadMoon.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("ReadMoon.Models.Publisher", b =>
@@ -132,7 +132,7 @@ namespace ReadMoon.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Publishers");
+                    b.ToTable("Publishers", (string)null);
                 });
 
             modelBuilder.Entity("ReadMoon.Models.Review", b =>
@@ -160,7 +160,7 @@ namespace ReadMoon.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("ReadMoon.Models.User", b =>
@@ -177,7 +177,7 @@ namespace ReadMoon.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("ReadMoon.Models.Book", b =>

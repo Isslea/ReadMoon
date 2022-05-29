@@ -34,7 +34,7 @@ public class AppDbContext : DbContext
                 .WithMany(b => b.Books)
                 .HasForeignKey(k => k.PublisherId);
 
-            eb.HasMany(a => a.Authors)
+            eb.HasMany(a => a.Author)
                 .WithMany(b => b.Books)
                 .UsingEntity<BookAuthor>(
                     a => a.HasOne(ab => ab.Author)
