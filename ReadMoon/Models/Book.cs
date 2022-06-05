@@ -1,6 +1,8 @@
+using ReadMoon.Data.Base;
+
 namespace ReadMoon.Models;
 
-public class Book
+public class Book : IEntityBase
 {
     public int Id { get; set; }
     public string Title { get; set; }

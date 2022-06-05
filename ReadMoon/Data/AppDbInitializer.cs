@@ -31,24 +31,28 @@ public class AppDbInitializer
                 _dbContext.Categories.AddRange(categories);
                 _dbContext.SaveChanges();
             }
+            
             if (!_dbContext.Publishers.Any())
             {
                 var publishers = GetPublishers();
                 _dbContext.Publishers.AddRange(publishers);
                 _dbContext.SaveChanges();
             }
+            
             if (!_dbContext.Books.Any())
             {
                 var books = GetBooks();
                 _dbContext.Books.AddRange(books);
                 _dbContext.SaveChanges();
             }
+            
             if (!_dbContext.Authors.Any())
             {
                 var authors = GetAuthors();
                 _dbContext.Authors.AddRange(authors);
                 _dbContext.SaveChanges();
             }
+            
             if (!_dbContext.BookAuthors.Any())
             {
                 var bookAuthors = getBookAuthors();
@@ -110,7 +114,6 @@ public class AppDbInitializer
         };
         return publishers;
     }
-
     private IEnumerable<Book> GetBooks()
     {
         var books = new List<Book>()

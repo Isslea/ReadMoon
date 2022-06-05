@@ -1,0 +1,51 @@
+﻿@model Category
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <div class="card mb-12">
+            <div class="row g-0">
+                <div class="col-md-12">
+                    <div class="card-header">
+                        <p class="card-text">
+                            <h1 class="card-title">
+                                Wypożycz inne książki gatunku @Model.Name:
+                            </h1>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row m-2">
+                        @foreach (var book in Model.Books)
+                        {
+                            <div class="col-12 col-sm-6 col-xl-4 mb-2">
+                                <div class="card h-100" style="width: 250px;">
+                                    <div class="card-body text-center">
+                                        <img src="@book.ImageURL" width="100%" alt="@book.Title">
+                                        <br />
+                                        <br />
+                                        <h5 class="card-text"><b>@book.Title</b></h5>
+                                        @foreach (var autor in book.Author)
+                                        {
+                                            <h6 class="card-text"><b>@autor.FullName</b></h6>
+                                        }
+                                        <a class="btn btn-outline-primary" asp-controller="" asp-action="Details" asp-route-id="@book.Id">
+                                            <i class="bi bi-eye-fill"></i> Więcej
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card-footer">
+                        <p class="card-text">
+                            <a class="btn btn-outline-success float-right" asp-action="Edit" asp-route-id="@Model.Id">Edytuj</a>
+                            <a class="btn btn-outline-secondary" asp-controller="" asp-action="Index">Wróć</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

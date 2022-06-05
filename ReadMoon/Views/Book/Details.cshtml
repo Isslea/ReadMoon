@@ -1,0 +1,66 @@
+﻿@model Book
+
+@{
+    ViewData["Title"] = "Movie details";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <div class="card mb-12">
+            <div class="row g-0">
+                <div class="col-md-12">
+                    <div class="card-header">
+
+                            <p class="card-text">
+                                <h1 class="card-title">
+                                    @Model.Title
+                                </h1>
+                            </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <img src="@Model.ImageURL" width="100%" alt="@Model.Title">
+                </div>
+                <div class="col-md-7">
+                    <div class="card-body">
+                        <p class="card-text">
+                            <b>Autor: </b>
+                            @foreach (var author in @Model.Author)
+                            {
+                                <a asp-controller="Author" asp-action="Details" asp-route-id="@author.Id">
+                                    @author.FullName
+                                </a>
+                            }
+                        </p>
+                        <p class="card-text">
+                            <b>Wydawca: </b>
+                            <a asp-controller="Publisher" asp-action="Details" asp-route-id="@Model.PublisherId">
+                                @Model.Publisher.Name
+                            </a>
+                        </p>
+                        <p class="card-text">
+                            <b>Gatunek: </b>
+                            <a asp-controller="Category" asp-action="Details" asp-route-id="@Model.CategoryId">
+                                @Model.Category.Name
+                                </a>
+                        </p>
+                        <p class="card-text"><b>Rok wydania: </b>@Model.RelaseDate.ToString("yyyy")</p>
+                        <p class="card-text"><b>ISBN: </b>@Model.ISBN</p>
+                        <p class="card-text">
+                        </p>
+                        <p class="card-text">@Model.Description</p>
+                    </div>
+                </div>           
+                <div class="col-md-12">
+                    <div class="card-footer">
+                        <p class="card-text">
+                            <a class="btn btn-outline-primary" asp-action="Index">
+                                Wróć
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

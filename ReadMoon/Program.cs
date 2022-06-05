@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ReadMoon.Data;
+using ReadMoon.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,11 @@ builder.Services.AddDbContext<AppDbContext>(
         .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 builder.Services.AddScoped<AppDbInitializer>();
+
+builder.Services.AddScoped<IAuthorService, AuthorService>();
+builder.Services.AddScoped<IPublisherService, PublisherService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IBookService, BookService>();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

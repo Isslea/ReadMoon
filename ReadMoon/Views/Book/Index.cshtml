@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Book>
+
+@{
+    ViewData["Title"] = "List of Movies";
+}
+
+@foreach (var item in Model)
+{
+    <div class="row">
+        <div class="card mb-3" style="width: 100%;">
+            <div class="row no-gutters">
+                <div class="col-3 col-md-2 col-xl-1">
+                    <img src="@item.ImageURL" height="100%" width="100%" alt="@item.Title">
+                </div>
+                <div class="col-9 col-md-10 col-xl-11">
+                    <div class="card-body">
+
+                            <a class="float-right mx-2" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
+                            <a class="float-right" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i></a>
+                        
+                            <h1 class="card-text">@item.Title</h1>
+                        <p class="card-text">
+                                <b>Autor: </b>
+                                @foreach (var author in item.Author)
+                                {
+                                    <a asp-controller="Author" asp-action="Details" asp-route-id="@author.Id">
+                                        @author.FullName
+                                    </a>
+                                }
+                            </p>
+                            <p class="card-text">
+                                <b>Wydawca: </b>
+                                <a asp-controller="Publisher" asp-action="Details" asp-route-id="@item.Publisher.Id">@item.Publisher.Name </a>
+                            </p>
+                            <p class="card-text">
+                                <b>Gatuenk: </b>
+                                <a asp-controller="Category" asp-action="Details" asp-route-id="@item.Category.Id">@item.Category.Name </a>
+                            </p>
+                        </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card-footer ">
+                        <p class="card-text">
+                            <a class="btn btn-outline-primary" asp-action="Details" asp-route-id="@item.Id">
+                                <i class="bi bi-eye-fill"></i> Więcej
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
