@@ -5,7 +5,7 @@
 }
 
 <div class="row">
-    <div class="col-md-8 offset-2">
+    <div class="col-md-10 offset-1">
         <div class="card mb-12">
             <div class="row g-0">
                 <div class="col-md-12">
@@ -27,22 +27,31 @@
                             <b>Autor: </b>
                             @foreach (var author in @Model.Author)
                             {
-                                <a asp-controller="Author" asp-action="Details" asp-route-id="@author.Id">
+                                <a class="text-decoration-none" asp-controller="Author" asp-action="Details" asp-route-id="@author.Id">
                                     @author.FullName
                                 </a>
                             }
                         </p>
                         <p class="card-text">
                             <b>Wydawca: </b>
-                            <a asp-controller="Publisher" asp-action="Details" asp-route-id="@Model.PublisherId">
+                            <a class="text-decoration-none" asp-controller="Publisher" asp-action="Details" asp-route-id="@Model.PublisherId">
                                 @Model.Publisher.Name
                             </a>
                         </p>
                         <p class="card-text">
                             <b>Gatunek: </b>
-                            <a asp-controller="Category" asp-action="Details" asp-route-id="@Model.CategoryId">
-                                @Model.Category.Name
-                                </a>
+                            @if (@Model.Category.Id == 1)
+                            {
+                                <a class="text-decoration-none" asp-action="Index" asp-route-searchCategory="@ViewBag.Fantasy">Fantasy i Sci-fi</a>
+                            }
+                            else if (@Model.Category.Id == 2)
+                            {
+                                <a class="text-decoration-none" asp-action="Index" asp-route-searchCategory="@ViewBag.Horror">Horror</a>
+                            }
+                            else if (@Model.Category.Id == 3)
+                            {
+                                <a class="text-decoration-none" asp-action="Index" asp-route-searchCategory="@ViewBag.Biography">Biografia</a>
+                            }
                         </p>
                         <p class="card-text"><b>Rok wydania: </b>@Model.RelaseDate.ToString("yyyy")</p>
                         <p class="card-text"><b>ISBN: </b>@Model.ISBN</p>

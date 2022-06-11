@@ -23,6 +23,16 @@ public class BookService: EntityBaseRepository<Book>, IBookService
             return bookDetails;
         }
 
+        public async Task<IEnumerable<Book>> GetAllBooksWhereAsync()
+        {
+            var bookDetails = await _db.Books
+                .Include(p => p.Publisher)
+                .Include(ab => ab.Author)
+                .Include(c => c.Category)
+                .Where(x => x.CategoryId.Equals(1))
+                .ToListAsync();
+            return bookDetails;
+        }
         public async Task<Book> GetBookByIdAsync(int id)
         {
             var bookDetails = await _db.Books

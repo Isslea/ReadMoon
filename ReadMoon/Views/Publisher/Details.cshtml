@@ -35,9 +35,9 @@
                                     <h5 class="card-text"><b>@book.Title</b></h5>
                                     @foreach (var author in book.Author)
                                     {
-                                        <h6 class="card-text"><b>@author.FullName</b></h6>
+                                        <h6 class="card-text">@author.FullName</h6>
                                     }
-                                    <a class="btn btn-outline-primary" asp-controller="" asp-action="Details" asp-route-id="@book.Id">
+                                    <a class="btn btn-outline-primary" asp-controller="Book" asp-action="Details" asp-route-id="@book.Id">
                                         <i class="bi bi-eye-fill"></i> Więcej
                                     </a>
                                 </div>

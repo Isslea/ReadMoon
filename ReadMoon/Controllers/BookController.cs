@@ -14,11 +14,43 @@ public class BookController : Controller
         {
             _service = service;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Filter(string searchString)
         {
             var allBooks = await _service.GetAllBooksAsync();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                var filteredResult = allBooks
+                    .Where(b => b.Title.ToUpper().Contains(searchString.ToUpper()) || 
+                                b.Author.Any(n => n.FullName.ToUpper().Contains(searchString.ToUpper())) || 
+                                b.Publisher.Name.ToUpper().Contains(searchString.ToUpper()));
+                return View("Index", filteredResult);
+            }
+
+            return View("Index", allBooks);
+        }
+        public async Task<IActionResult> Index(string searchCategory)
+        {
+            var books = await _service.GetAllBooksAsync();
             
-            return View(allBooks);
+            ViewBag.All = String.IsNullOrEmpty(searchCategory) ? "" : "";
+            ViewBag.Fantasy = searchCategory == "" ? "" : "fantasy";
+            ViewBag.Horror = searchCategory == "" ? "" : "horror";
+            ViewBag.Biography = searchCategory == "" ? "" : "biography";
+           
+            switch (searchCategory)
+            {
+                case "fantasy":
+                     books = books.Where(X => X.CategoryId.Equals(1));
+                     break;
+                 case "horror":
+                     books = books.Where(X => X.CategoryId.Equals(2));
+                     break;
+                 case "biography":
+                     books = books.Where(X => X.CategoryId.Equals(3));
+                     break;
+             }
+            return View(books);
         }
 
         //GET: Book/Details

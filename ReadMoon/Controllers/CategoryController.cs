@@ -18,13 +18,7 @@ public class CategoryController : Controller
             return View(allCategories);
         }
 
-        //GET: category/details
-        public async Task<IActionResult> Details(int id)
-        {
-            var categoryDetails = await _service.GetCategoryByIdAsync(id);
-            if (categoryDetails == null) return View("NotFound");
-            return View(categoryDetails);
-        }
+
 
         //GET: category/create
         public IActionResult Create()

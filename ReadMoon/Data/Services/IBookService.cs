@@ -6,6 +6,7 @@ namespace ReadMoon.Data.Services;
 public interface IBookService : IEntityBaseRepository<Book>
 {
     Task<IEnumerable<Book>> GetAllBooksAsync();
+    Task<IEnumerable<Book>> GetAllBooksWhereAsync();
     Task<Book> GetBookByIdAsync(int id);
     Task<NewDropDownVM> GetNewBookDropdownsValues();
     Task AddNewBookAsync(NewBookVM data);
