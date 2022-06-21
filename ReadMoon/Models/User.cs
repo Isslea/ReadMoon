@@ -1,11 +1,8 @@
+using Microsoft.AspNetCore.Identity;
+
 namespace ReadMoon.Models;
 
-public class User
+public class User : IdentityUser
 {
-    public Guid Id { get; set; }
-    public string Nickname { get; set; }
-    public string Email { get; set; }
     
-    //Relationships
-    public Review Review { get; set; }
 }

@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ReadMoon.Models;
 
 namespace ReadMoon.Data;
 
-public class AppDbContext : DbContext
+public class AppDbContext : IdentityDbContext<User>
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
@@ -14,16 +15,10 @@ public class AppDbContext : DbContext
     public DbSet<BookAuthor> BookAuthors { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Publisher> Publishers { get; set; }
-    public DbSet<Review> Reviews { get; set; }
-    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>()
-            .HasOne(u => u.Review)
-            .WithOne(a => a.User)
-            .HasForeignKey<Review>(a => a.UserId);
-
+        base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Book>(eb =>
         {
             eb.HasOne(c => c.Category)
