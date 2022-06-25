@@ -4,6 +4,10 @@ using ReadMoon.Models;
 
 namespace ReadMoon.Data.Services;
 
+public interface ICategoryService : IEntityBaseRepository<Category>
+{
+    Task<Category> GetCategoryByIdAsync(int id);
+}
 public class CategoryService: EntityBaseRepository<Category>, ICategoryService
 {
     private readonly AppDbContext _db;

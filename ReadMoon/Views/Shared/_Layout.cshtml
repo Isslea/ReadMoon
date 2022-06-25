@@ -20,24 +20,32 @@
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Author" asp-action="Index">Autor</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Publisher" asp-action="Index">Wydawca</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="Index">Kategoria</a>
-                    </li>
-                    
+                   <li class="nav-item">
+                       <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="Index">Katalog</a>
+                   </li>
+
                    
-                                                        
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                       {
+                           <li class="nav-item dropdown">
+                               <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                   Zarządzanie
+                               </button>
+                               <ul class="dropdown-menu" aria-labelledby="dropdown">
+                                   <li><a class="nav-link dropdown-item" asp-area="" asp-controller="Book" asp-action="Create">Dodaj Książkę</a></li>
+                                   <li><a class="nav-link dropdown-item" asp-area="" asp-controller="Category" asp-action="Index">Kategorie</a></li>
+                                   <li><a class="nav-link dropdown-item" asp-area="" asp-controller="Author" asp-action="Index">Autorzy</a></li>
+                                   <li><a class="nav-link dropdown-item" asp-area="" asp-controller="Publisher" asp-action="Index">Wydawnictwa</a></li>
+                               </ul>
+                           </li>
+                       }
+                        
+                                               
                 </ul>
                 <form class="form-inline my-2 my-lg-0" asp-controller="Book" asp-action="Filter" style="padding-right: 5px;">
-                                        <input name="searchString" type="text" class="form-control" placeholder="Szukaj..." aria-label="Recipient's username" aria-describedby="button-addon2">
-                                     <!--<button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>-->
-                                        </form>
-                 
+                    <input name="searchString" type="text" class="form-control" placeholder="Szukaj książki, autora..." aria-label="Recipient's username" aria-describedby="button-addon2">
+                </form>
+                <partial name="_Identity.cshtml" />
             </div>
         </div>
     </nav>

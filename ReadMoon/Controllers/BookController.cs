@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ReadMoon.Data;
 using ReadMoon.Data.Services;
+using ReadMoon.Models;
 
 namespace ReadMoon.Controllers;
-
+[Authorize(Roles = UserRoles.Admin)]
 public class BookController : Controller
 {
  private readonly IBookService _service;
@@ -14,6 +15,7 @@ public class BookController : Controller
         {
             _service = service;
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Filter(string searchString)
         {
             var allBooks = await _service.GetAllBooksAsync();
@@ -29,6 +31,7 @@ public class BookController : Controller
 
             return View("Index", allBooks);
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string searchCategory)
         {
             var books = await _service.GetAllBooksAsync();

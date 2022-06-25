@@ -3,7 +3,10 @@ using ReadMoon.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ReadMoon.Data.Services;
-
+public interface IAuthorService: IEntityBaseRepository<Author>
+{
+    Task<Author> GetAuthorByIdAsync(int id);
+}
 public class AuthorService : EntityBaseRepository<Author>, IAuthorService
 {
     private readonly AppDbContext _db;

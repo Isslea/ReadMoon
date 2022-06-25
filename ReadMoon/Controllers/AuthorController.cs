@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ReadMoon.Models;
 using ReadMoon.Data.Services;
 
 namespace ReadMoon.Controllers;
-
+[Authorize(Roles = UserRoles.Admin)]
 public class AuthorController : Controller
 {
     private readonly IAuthorService _service;
@@ -18,6 +19,7 @@ public class AuthorController : Controller
         return View(allAuthors);
     }
     //GET: author/details
+    [AllowAnonymous]
     public async Task<IActionResult> Details(int id)
     {
         var authorDetails = await _service.GetAuthorByIdAsync(id);

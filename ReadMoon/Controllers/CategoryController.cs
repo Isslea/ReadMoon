@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ReadMoon.Data.Services;
 using ReadMoon.Models;
 
 namespace ReadMoon.Controllers;
-
+[Authorize(Roles = UserRoles.Admin)]
 public class CategoryController : Controller
     {
         private readonly ICategoryService _service;
@@ -12,14 +13,13 @@ public class CategoryController : Controller
         {
             _service = service;
         }
+        
         public async Task<IActionResult> Index()
         {
             var allCategories = await _service.GetAllAsync();
             return View(allCategories);
         }
-
-
-
+        
         //GET: category/create
         public IActionResult Create()
         {

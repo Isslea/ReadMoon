@@ -5,6 +5,7 @@ using ReadMoon.Models;
 
 namespace ReadMoon.Controllers;
 
+[Authorize(Roles = UserRoles.Admin)]
 public class PublisherController : Controller
 {
     private readonly IPublisherService _service;

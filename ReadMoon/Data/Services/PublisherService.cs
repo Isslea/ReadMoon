@@ -4,6 +4,11 @@ using ReadMoon.Models;
 
 namespace ReadMoon.Data.Services;
 
+public interface IPublisherService : IEntityBaseRepository<Publisher>
+{
+    Task<Publisher> GetPublisherByIdAsync(int id);
+}
+
 public class PublisherService: EntityBaseRepository<Publisher>, IPublisherService
 {
     private readonly AppDbContext _db;

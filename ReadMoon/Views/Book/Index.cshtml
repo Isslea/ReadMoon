@@ -2,7 +2,7 @@
 @model IEnumerable<Book>
 
 @{
-    ViewData["Title"] = "List of Movies";
+    ViewData["Title"] = "Katalog";
 }
 
 
@@ -25,10 +25,11 @@
                         </div>
                         <div class="col-8 col-md-9 col-xl-10">
                             <div class="card-body">
-
-                                <a class="float-end mx-2" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
-                                <a class="float-end" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i></a>
-
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                {
+                                    <a class="float-end mx-2" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
+                                    <a class="float-end" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i></a>
+                                }
                                 <h2 class="card-text">@item.Title</h2>
                                 <p class="card-text">
                                     <b>Autor: </b>
