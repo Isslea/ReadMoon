@@ -16,7 +16,8 @@ public class BookController : Controller
             _service = service;
         }
         [AllowAnonymous]
-        public async Task<IActionResult> Filter(string searchString)
+        [Route("Book/Search")]
+        public async Task<IActionResult> Search(string searchString)
         {
             var allBooks = await _service.GetAllBooksAsync();
 
@@ -55,7 +56,7 @@ public class BookController : Controller
         }
 
         //GET: Book/Create
-        [Route("Book/Create", Name="Create")]
+        [Route("Book/Create")]
         public async Task<IActionResult> Create()
         {
             var bookDropDown = await _service.GetNewBookDropdownsValues();
