@@ -1,0 +1,29 @@
+@model ReadMoon.Data.ReviewVM
+
+@{
+    ViewData["Title"] = "Usuń Komentarz";
+}
+
+<div class="row text">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h1 class="text-center">Usuń Komentarz</h1>
+        </p>
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <div class="form-group">
+                    <label asp-for="Text" class="control-label"></label>
+                    <input asp-for="Text" class="form-control" readonly />
+                    <span asp-validation-for="Text" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="Id" />
+                        <input type="submit" value="Potwierdź" class="btn btn-danger float-right" />
+                    </form>
+                   <a class="btn btn-outline-secondary" asp-controller="Book" asp-action="Details" asp-route-id="@Model.BookId">Wróć</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

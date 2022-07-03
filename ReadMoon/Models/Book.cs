@@ -18,5 +18,7 @@ public class Book : IEntityBase
     public Publisher Publisher { get; set; }
     public int PublisherId { get; set; }
     
+    //Relationships
     public List<Author> Author { get; set; }
+    public virtual IEnumerable<Review>? Reviews { get; set; }
 }

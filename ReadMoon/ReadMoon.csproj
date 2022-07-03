@@ -24,4 +24,9 @@
       <Compile Remove="Migrations\20220620165528_RemoveTableUserAndReview.Designer.cs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Pages\Review\CreateComment.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Review\EditComment.cshtml" />
+    </ItemGroup>
+
 </Project>

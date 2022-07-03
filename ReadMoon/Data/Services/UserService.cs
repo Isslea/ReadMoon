@@ -25,7 +25,7 @@ public class UserService : IUserService
     {
         return _httpContextAccessor.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
     }
-
+    
     public async Task<IdentityResult> ChangePasswordAsync(ChangePasswordVM changePasswordVM)
     {
         var userId = GetUserId();

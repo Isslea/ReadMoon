@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReadMoon.Data;
 
@@ -11,9 +12,10 @@ using ReadMoon.Data;
 namespace ReadMoon.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220630165025_AddReviewTable")]
+    partial class AddReviewTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -297,7 +299,9 @@ namespace ReadMoon.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Reviews");
                 });
@@ -465,8 +469,8 @@ namespace ReadMoon.Migrations
                         .IsRequired();
 
                     b.HasOne("ReadMoon.Models.User", "Users")
-                        .WithMany("Reviews")
-                        .HasForeignKey("UserId");
+                        .WithOne("Reviews")
+                        .HasForeignKey("ReadMoon.Models.Review", "UserId");
 
                     b.Navigation("Books");
 

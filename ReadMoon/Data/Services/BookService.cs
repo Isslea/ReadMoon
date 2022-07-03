@@ -7,12 +7,12 @@ namespace ReadMoon.Data.Services;
 public interface IBookService : IEntityBaseRepository<Book>
 {
     Task<IEnumerable<Book>> GetAllBooksAsync();
-    Task<IEnumerable<Book>> GetAllBooksWhereAsync();
     Task<Book> GetBookByIdAsync(int id);
     Task<NewDropDownVM> GetNewBookDropdownsValues();
     Task AddNewBookAsync(NewBookVM data);
     Task UpdateBookAsync(NewBookVM data);
     Task DeleteNewBookAsync(int id);
+
 }
 public class BookService: EntityBaseRepository<Book>, IBookService
     {
@@ -29,17 +29,7 @@ public class BookService: EntityBaseRepository<Book>, IBookService
                 .Include(p => p.Publisher)
                 .Include(ab => ab.Author)
                 .Include(c => c.Category)
-                .ToListAsync();
-            return bookDetails;
-        }
-
-        public async Task<IEnumerable<Book>> GetAllBooksWhereAsync()
-        {
-            var bookDetails = await _db.Books
-                .Include(p => p.Publisher)
-                .Include(ab => ab.Author)
-                .Include(c => c.Category)
-                .Where(x => x.CategoryId.Equals(1))
+                .Include(r => r.Reviews)
                 .ToListAsync();
             return bookDetails;
         }
@@ -49,6 +39,8 @@ public class BookService: EntityBaseRepository<Book>, IBookService
                 .Include(p => p.Publisher)
                 .Include(ab => ab.Author)
                 .Include(c => c.Category)
+                .Include(r => r.Reviews)
+                .ThenInclude(u => u.Users)
                 .FirstOrDefaultAsync(n => n.Id == id);
             return bookDetails;
         }
@@ -94,6 +86,7 @@ public class BookService: EntityBaseRepository<Book>, IBookService
             }
             await _db.SaveChangesAsync();
         }
+        
 
         //Update book
         public async Task UpdateBookAsync(NewBookVM data)

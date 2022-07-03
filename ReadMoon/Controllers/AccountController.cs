@@ -11,14 +11,12 @@ public class AccountController : Controller
     private readonly UserManager<User> _userManager;
     private readonly IUserService _userService;
     private readonly SignInManager<User> _signInManager;
-    private readonly AppDbContext _context;
-    
 
-    public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, AppDbContext context, IUserService userService)
+
+    public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IUserService userService)
     {
         _userManager = userManager;
         _signInManager = signInManager;
-        _context = context;
         _userService = userService;
     }
 

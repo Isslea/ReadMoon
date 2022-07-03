@@ -1,9 +1,9 @@
 ﻿@model Book
+@inject UserManager<User> _userManager;
 
 @{
-    ViewData["Title"] = "Movie details";
+    ViewData["Title"] = "Książka";
 }
-
 <div class="row">
     <div class="col-md-10 offset-1">
         <div class="card mb-12">
@@ -40,19 +40,8 @@
                         </p>
                         <p class="card-text">
                             <b>Gatunek: </b>
-                            @if (@Model.Category.Id == 1)
-                            {
-                                <a class="text-decoration-none" asp-action="Index" asp-route-searchCategory="@ViewBag.Fantasy">Fantasy i Sci-fi</a>
-                            }
-                            else if (@Model.Category.Id == 2)
-                            {
-                                <a class="text-decoration-none" asp-action="Index" asp-route-searchCategory="@ViewBag.Horror">Horror</a>
-                            }
-                            else if (@Model.Category.Id == 3)
-                            {
-                                <a class="text-decoration-none" asp-action="Index" asp-route-searchCategory="@ViewBag.Biography">Biografia</a>
-                            }
-                        </p>
+                           <a href="@Url.RouteUrl("Category", new {categoryId = @Model.CategoryId})" class="text-decoration-none">@Model.Category.Name</a>
+                                                           </p>
                         <p class="card-text"><b>Rok wydania: </b>@Model.RelaseDate.ToString("yyyy")</p>
                         <p class="card-text"><b>ISBN: </b>@Model.ISBN</p>
                         <p class="card-text">
@@ -62,6 +51,37 @@
                 </div>           
                 <div class="col-md-12">
                     <div class="card-footer">
+                        <p class="card-text">
+    
+                             @foreach (var review in Model.Reviews)
+                             {
+                                 @if (@_userManager.GetUserId(User) == @review.UserId)
+                                 {
+                                     <a class="float-end mx-2 float-end" asp-controller="Review" asp-action="Edit" asp-route-id="@review.Id">
+                                         <i class="bi bi-pencil-square"></i>
+                                     </a>
+                                     <a class="float-end" asp-controller="Review" asp-action="Delete" asp-route-id="@review.Id"><i class="bi bi-trash"></i></a>
+                                 }
+                                 <p><b>@review.Users.UserName</b></p>
+                                 <p>@review.Text</p>
+
+                                 <p class="text-end text-black-50">@review.CreatedOn.ToString("dd.MM.yyyy HH:mm ")</p>
+
+                                 <hr>
+
+                             }
+                                 @if (@Model.Reviews.Where(x => x.BookId == @Model.Id).All(x => x.UserId != @_userManager.GetUserId(User)))
+                                 {
+                                     <a href="@Url.RouteUrl("Review", new {bookId = @Model.Id})" class="btn btn-outline-primary">
+                                         Dodaj komenatarz
+                                     </a>
+                                 }
+                        </p>
+
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card-body">
                         <p class="card-text">
                             <a class="btn btn-outline-primary" asp-action="Index">
                                 Wróć

@@ -1,5 +1,4 @@
-﻿@using Microsoft.EntityFrameworkCore.Query.Internal
-@model IEnumerable<Book>
+﻿@model IEnumerable<Book>
 
 @{
     ViewData["Title"] = "Katalog";
@@ -10,12 +9,13 @@
     <div class="row">
         <div class="col-2 text-center">
             <h3>Zobacz też:</h3>
-            <a class="btn btn-outline-primary ml-2 mt-2 mb-2 w-100" asp-action="Index" asp-route-searchCategory="@ViewBag.All">Wszystko</a>
-            <a class="btn btn-outline-secondary ml-2 mb-2 w-100" asp-action="Index" asp-route-searchCategory="@ViewBag.Fantasy">Fantasy i Sci-fi</a>
-            <a class="btn btn-outline-secondary ml-2 mb-2 w-100" asp-action="Index" asp-route-searchCategory="@ViewBag.Horror">Horror</a>
-            <a class="btn btn-outline-secondary ml-2 w-100" asp-action="Index" asp-route-searchCategory="@ViewBag.Biography">Biografia</a>
-        </div>
-        <div class="col-10">
+            <a href="~/Book" class="btn btn-outline-secondary ml-2 mb-2 w-100">Wszystko</a>
+            @foreach (var cat in Model.DistinctBy(x => x.CategoryId))
+            {
+                <a href="@Url.RouteUrl("Category", new {categoryId = @cat.CategoryId})" class="btn btn-outline-secondary ml-2 mb-2 w-100">@cat.Category.Name</a>
+            } 
+            </div>
+            <div class="col-10">
             @foreach (var item in Model)
             {
                 <div class="card mb-3" style="width: 100%;">
@@ -46,23 +46,12 @@
                                 </p>
                                 <p class="card-text">
                                     <b>Gatunek: </b>
-                                    @if (@item.Category.Id == 1)
-                                    {
-                                        <a class="text-decoration-none" asp-action="Index" asp-route-searchCategory="@ViewBag.Fantasy">Fantasy i Sci-fi</a>
-                                    }
-                                    else if (@item.Category.Id == 2)
-                                    {
-                                        <a class="text-decoration-none" asp-action="Index" asp-route-searchCategory="@ViewBag.Horror">Horror</a>
-                                    }
-                                    else if (@item.Category.Id == 3)
-                                    {
-                                        <a class="text-decoration-none" asp-action="Index" asp-route-searchCategory="@ViewBag.Biography">Biografia</a>
-                                    }
+                                    <a href="@Url.RouteUrl("Category", new {categoryId = @item.CategoryId})" class="text-decoration-none">@item.Category.Name</a>
                                 </p>
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <div class="card-footer ">
+                            <div class="card-body ">
                                 <p class="card-text">
                                     <a class="btn btn-outline-primary" asp-action="Details" asp-route-id="@item.Id">
                                         <i class="bi bi-eye-fill"></i> Więcej

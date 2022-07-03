@@ -32,29 +32,19 @@ public class BookController : Controller
             return View("Index", allBooks);
         }
         [AllowAnonymous]
-        public async Task<IActionResult> Index(string searchCategory)
+        [Route("Book/{categoryId?}", Name="Category")]
+        public async Task<IActionResult> Index(int? categoryId)
         {
             var books = await _service.GetAllBooksAsync();
-            
-            ViewBag.All = String.IsNullOrEmpty(searchCategory) ? "" : "";
-            ViewBag.Fantasy = searchCategory == "" ? "" : "fantasy";
-            ViewBag.Horror = searchCategory == "" ? "" : "horror";
-            ViewBag.Biography = searchCategory == "" ? "" : "biography";
-           
-            switch (searchCategory)
+            if (categoryId != null)
             {
-                case "fantasy":
-                     books = books.Where(X => X.CategoryId.Equals(1));
-                     break;
-                 case "horror":
-                     books = books.Where(X => X.CategoryId.Equals(2));
-                     break;
-                 case "biography":
-                     books = books.Where(X => X.CategoryId.Equals(3));
-                     break;
-             }
-            return View(books);
+                var categoryResults =  books.Where(x => x.CategoryId.Equals(categoryId));
+                return View("Index", categoryResults);
+            }
+            return View("Index", books);
         }
+        
+        
 
         //GET: Book/Details
         [AllowAnonymous]
@@ -65,7 +55,8 @@ public class BookController : Controller
         }
 
         //GET: Book/Create
-        public async Task<IActionResult> CreateAsync()
+        [Route("Book/Create", Name="Create")]
+        public async Task<IActionResult> Create()
         {
             var bookDropDown = await _service.GetNewBookDropdownsValues();
 
@@ -92,7 +83,8 @@ public class BookController : Controller
             await _service.AddNewBookAsync(book);
             return RedirectToAction(nameof(Index));
         }
-
+       
+        
         //GET: Book/Edit
         public async Task<IActionResult> Edit(int id)
         {
@@ -121,9 +113,9 @@ public class BookController : Controller
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, NewBookVM movie)
+        public async Task<IActionResult> Edit(int id, NewBookVM book)
         {
-            if (id != movie.Id) return View("NotFound");
+            if (id != book.Id) return View("NotFound");
 
             if (!ModelState.IsValid)
             {
@@ -131,10 +123,10 @@ public class BookController : Controller
                 ViewBag.Authors = new SelectList(bookDropDown.Authors, "Id", "FullName");
                 ViewBag.Publishers = new SelectList(bookDropDown.Publishers, "Id", "Name");
                 ViewBag.Categories = new SelectList(bookDropDown.Categories, "Id", "Name");
-                return View(movie);
+                return View(book);
             }
 
-            await _service.UpdateBookAsync(movie);
+            await _service.UpdateBookAsync(book);
             return RedirectToAction(nameof(Index));
         }
 

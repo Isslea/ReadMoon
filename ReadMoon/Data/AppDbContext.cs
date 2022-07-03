@@ -15,10 +15,24 @@ public class AppDbContext : IdentityDbContext<User>
     public DbSet<BookAuthor> BookAuthors { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Publisher> Publishers { get; set; }
-
+    public DbSet<Review> Reviews { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Review>(eb =>
+        {
+
+                eb.HasOne(x => x.Users)
+                .WithMany(x => x.Reviews)
+                .HasForeignKey(x => x.UserId);
+
+           
+                eb.HasOne(x => x.Books)
+                .WithMany(x => x.Reviews)
+                .HasForeignKey(x => x.BookId);
+        });
+        
         modelBuilder.Entity<Book>(eb =>
         {
             eb.HasOne(c => c.Category)

@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using ReadMoon.Models;
 
 namespace ReadMoon.Data;
 
