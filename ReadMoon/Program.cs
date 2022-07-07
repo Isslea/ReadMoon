@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddDbContext<AppDbContext>(
     option=>option
         .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
@@ -31,8 +32,11 @@ builder.Services.AddAuthentication(x =>
 });
 
 var app = builder.Build();
-// Configure the HTTP request pipeline.
 
+var scopee = app.Services.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>();
+var seeder = app.Services.CreateScope().ServiceProvider.GetRequiredService<AppDbInitializer>();
+
+// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -40,6 +44,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+scopee.Database.Migrate();
+seeder.Seed();
+AppSeedUsersAndRoles.SeedUsersAndRolesAsync(app).Wait();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -55,11 +62,4 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-//Seeding
-
-var scope = app.Services.CreateScope();
-var seeder = scope.ServiceProvider.GetRequiredService<AppDbInitializer>();
-seeder.Seed();
-AppSeedUsersAndRoles.SeedUsersAndRolesAsync(app).Wait();
 app.Run();
-

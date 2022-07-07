@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: "ReadMoon-mssql"
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Admin@123"
+    ports:
+      - "1443:1443"
+  readmoon:
+    container_name: "ReadMoon-app"
+    build: .
+    ports:
+      - "5005:80"
+    depends_on:
+      - mssql 
